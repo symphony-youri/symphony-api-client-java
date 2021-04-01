@@ -30,6 +30,9 @@ jacocoTestCoverageVerification {
 }
 
 dependencies {
+    implementation 'com.symphony:scrypto-lib'
+    implementation 'org.symphonyoss.symphony:messageml:0.9.68'
+
     api project(':symphony-bdk-http:symphony-bdk-http-api')
     api project(':symphony-bdk-template:symphony-bdk-template-api')
 

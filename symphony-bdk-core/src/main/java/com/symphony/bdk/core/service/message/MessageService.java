@@ -58,14 +58,14 @@ import javax.annotation.Nullable;
 @API(status = API.Status.STABLE)
 public class MessageService implements OboMessageService, OboService<OboMessageService> {
 
-  private final MessagesApi messagesApi;
+  protected final MessagesApi messagesApi;
   private final MessageApi messageApi;
   private final MessageSuppressionApi messageSuppressionApi;
   private final StreamsApi streamsApi;
-  private final PodApi podApi;
+  protected final PodApi podApi;
   private final AttachmentsApi attachmentsApi;
   private final DefaultApi defaultApi;
-  private final AuthSession authSession;
+  protected final AuthSession authSession;
   private final TemplateEngine templateEngine;
   private final RetryWithRecoveryBuilder<?> retryBuilder;
 
@@ -169,7 +169,7 @@ public class MessageService implements OboMessageService, OboService<OboMessageS
    */
   public List<V4Message> listMessages(@Nonnull String streamId, @Nonnull Instant since,
       @Nonnull PaginationAttribute pagination) {
-    return executeAndRetry("getMessages", messageApi.getApiClient().getBasePath(),
+    return executeAndRetry("getMessages", messagesApi.getApiClient().getBasePath(),
         () -> messagesApi.v4StreamSidMessageGet(streamId, getEpochMillis(since),
         authSession.getSessionToken(), authSession.getKeyManagerToken(), pagination.getSkip(), pagination.getLimit()));
   }
@@ -184,7 +184,7 @@ public class MessageService implements OboMessageService, OboService<OboMessageS
    * @see <a href="https://developers.symphony.com/restapi/reference#messages-v4">Messages</a>
    */
   public List<V4Message> listMessages(@Nonnull String streamId, @Nonnull Instant since) {
-    return executeAndRetry("getMessages", messageApi.getApiClient().getBasePath(),
+    return executeAndRetry("getMessages", messagesApi.getApiClient().getBasePath(),
         () -> messagesApi.v4StreamSidMessageGet(streamId, getEpochMillis(since),
         authSession.getSessionToken(), authSession.getKeyManagerToken(), null, null));
   }
@@ -239,7 +239,7 @@ public class MessageService implements OboMessageService, OboService<OboMessageS
    * The generated {@link MessagesApi#v4StreamSidMessageCreatePost(String, String, String, String, String, String, File, File)}
    * does not allow to send multiple attachments as well as in-memory files, so we have to "manually" process this call.
    */
-  private V4Message doSendMessage(@Nonnull String streamId, @Nonnull Message message) throws ApiException {
+  protected V4Message doSendMessage(@Nonnull String streamId, @Nonnull Message message) throws ApiException {
     final String path = "/v4/stream/" + this.messagesApi.getApiClient().escapeString(streamId) + "/message/create";
 
     return doSendFormData(path, getForm(message), new TypeReference<V4Message>() {});

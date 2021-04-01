@@ -1,5 +1,8 @@
 rootProject.name = 'symphony-bdk-java'
 
+includeBuild '../scrypto'
+
+
 include(':symphony-bdk-bom')
 
 include(':symphony-bdk-core')
