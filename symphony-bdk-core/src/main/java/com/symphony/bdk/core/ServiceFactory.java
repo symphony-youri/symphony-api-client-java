@@ -12,6 +12,7 @@ import com.symphony.bdk.core.service.datafeed.impl.DatafeedLoopV1;
 import com.symphony.bdk.core.service.datafeed.impl.DatafeedLoopV2;
 import com.symphony.bdk.core.service.disclaimer.DisclaimerService;
 import com.symphony.bdk.core.service.health.HealthService;
+import com.symphony.bdk.core.service.message.AgentlessMessageService;
 import com.symphony.bdk.core.service.message.MessageService;
 import com.symphony.bdk.core.service.presence.PresenceService;
 import com.symphony.bdk.core.service.session.SessionService;
@@ -59,6 +60,7 @@ import org.apiguardian.api.API;
 class ServiceFactory {
 
   private final ApiClient podClient;
+  private final ApiClient podRootClient;
   private final ApiClient agentClient;
   private final ApiClient datafeedAgentClient;
   private final AuthSession authSession;
@@ -68,6 +70,8 @@ class ServiceFactory {
 
   public ServiceFactory(ApiClientFactory apiClientFactory, AuthSession authSession, BdkConfig config) {
     this.podClient = apiClientFactory.getPodClient();
+    // we need to hit the pod's private APIs, under /, not /pod
+    this.podRootClient = apiClientFactory.getPodRootClient();
     this.agentClient = apiClientFactory.getAgentClient();
     this.datafeedAgentClient = apiClientFactory.getDatafeedAgentClient();
     this.authSession = authSession;
@@ -127,8 +131,8 @@ class ServiceFactory {
    * @return a new {@link MessageService} instance.
    */
   public MessageService getMessageService() {
-    return new MessageService(
-        new MessagesApi(this.agentClient),
+    return new AgentlessMessageService(
+        new MessagesApi(this.podRootClient),
         new MessageApi(this.podClient),
         new MessageSuppressionApi(this.podClient),
         new StreamsApi(this.podClient),

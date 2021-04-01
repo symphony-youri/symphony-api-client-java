@@ -69,6 +69,10 @@ public class ApiClientFactory {
     return buildClient(POD_CONTEXT_PATH, this.config.getPod());
   }
 
+  public ApiClient getPodRootClient() {
+    return buildClient("", this.config.getPod());
+  }
+
   /**
    * Returns a fully initialized {@link ApiClient} for KeyManager API.
    *
