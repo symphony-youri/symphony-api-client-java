@@ -2,6 +2,8 @@ package com.symphony.bdk.core.config.model;
 
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
+import com.symphony.bdk.core.module.BdkModule;
+
 import lombok.Getter;
 import lombok.Setter;
 import org.apiguardian.api.API;
@@ -25,6 +27,8 @@ public class BdkConfig extends BdkServerConfig {
 
   private BdkRetryConfig retry = new BdkRetryConfig();
   private BdkDatafeedConfig datafeed = new BdkDatafeedConfig();
+
+  private BdkModule module;
 
   /**
    * Check if OBO is configured. Checks {@link BdkExtAppConfig#isConfigured()} on field {@link #app}.

@@ -120,13 +120,13 @@ class MessageServiceTest {
     podApi = new PodApi(podClient);
     defaultApi = new DefaultApi(podClient);
 
-    messageService = new MessageService(messagesApi, messageApi, messageSuppressionApi, streamsApi, podApi,
+    messageService = new MessageServiceImpl(messagesApi, messageApi, messageSuppressionApi, streamsApi, podApi,
         attachmentsApi, defaultApi, authSession, templateEngine, new RetryWithRecoveryBuilder<>());
   }
 
   @Test
   void nonOboEndpointShouldThrowExceptionInOboMode() {
-    messageService = new MessageService(messagesApi, messageApi, messageSuppressionApi, streamsApi, podApi,
+    messageService = new MessageServiceImpl(messagesApi, messageApi, messageSuppressionApi, streamsApi, podApi,
         attachmentsApi, defaultApi, templateEngine, new RetryWithRecoveryBuilder<>());
 
     assertThrows(IllegalStateException.class, () -> messageService.getMessage("message.id"));
@@ -137,7 +137,7 @@ class MessageServiceTest {
     mockApiClient.onPost(V4_STREAM_MESSAGE_CREATE.replace("{sid}", STREAM_ID),
         JsonHelper.readFromClasspath("/message/send_message.json"));
 
-    messageService = new MessageService(messagesApi, messageApi, messageSuppressionApi, streamsApi, podApi,
+    messageService = new MessageServiceImpl(messagesApi, messageApi, messageSuppressionApi, streamsApi, podApi,
         attachmentsApi, defaultApi, templateEngine, new RetryWithRecoveryBuilder<>());
     final V4Message sentMessage = messageService.obo(authSession).send(STREAM_ID, MESSAGE);
 
@@ -476,7 +476,7 @@ class MessageServiceTest {
         .build();
 
     ApiClient agentClient = spy(mockServer.newApiClient("/agent"));
-    messageService = new MessageService(new MessagesApi(agentClient), null, null, null, null, null, null, authSession,
+    messageService = new MessageServiceImpl(new MessagesApi(agentClient), null, null, null, null, null, null, authSession,
         templateEngine, new RetryWithRecoveryBuilder<>());
 
     final String response = JsonHelper.readFromClasspath("/message/blast_message.json");
@@ -534,7 +534,7 @@ class MessageServiceTest {
       List<String> expectedAttachmentFilenames, List<String> expectedPreviewFilenames)
       throws IOException, ApiException {
     ApiClient agentClient = spy(mockServer.newApiClient("/agent"));
-    messageService = new MessageService(new MessagesApi(agentClient), null, null, null, null, null, null, authSession,
+    messageService = new MessageServiceImpl(new MessagesApi(agentClient), null, null, null, null, null, null, authSession,
         templateEngine, new RetryWithRecoveryBuilder<>());
 
     final String response = JsonHelper.readFromClasspath("/message/send_message.json");

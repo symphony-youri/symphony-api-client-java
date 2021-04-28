@@ -90,4 +90,8 @@ public class BdkClientConfig extends BdkServerConfig {
   private <T> T thisOrParent(T thisValue, Supplier<T> parentValue) {
     return thisValue == null ? parentValue.get() : thisValue;
   }
+
+  public BdkConfig getParentConfig() {
+    return parentConfig;
+  }
 }

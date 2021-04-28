@@ -2,6 +2,7 @@ package com.symphony.bdk.core.service.message.model;
 
 import static java.util.Collections.emptyMap;
 
+import com.symphony.bdk.core.service.message.MessageServiceImpl;
 import com.symphony.bdk.core.service.message.exception.MessageCreationException;
 import com.symphony.bdk.gen.api.model.V4Stream;
 import com.symphony.bdk.template.api.Template;
@@ -25,7 +26,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 /**
- * Message model to be used in {@link com.symphony.bdk.core.service.message.MessageService#send(V4Stream, Message)}
+ * Message model to be used in {@link MessageServiceImpl#send(V4Stream, Message)}
  */
 @Getter
 @API(status = API.Status.STABLE)

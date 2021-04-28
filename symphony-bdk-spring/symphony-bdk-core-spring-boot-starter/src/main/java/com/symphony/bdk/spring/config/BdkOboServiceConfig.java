@@ -8,6 +8,7 @@ import com.symphony.bdk.core.config.model.BdkConfig;
 import com.symphony.bdk.core.retry.RetryWithRecoveryBuilder;
 import com.symphony.bdk.core.service.connection.ConnectionService;
 import com.symphony.bdk.core.service.message.MessageService;
+import com.symphony.bdk.core.service.message.MessageServiceImpl;
 import com.symphony.bdk.core.service.presence.PresenceService;
 import com.symphony.bdk.core.service.session.SessionService;
 import com.symphony.bdk.core.service.signal.SignalService;
@@ -112,7 +113,7 @@ public class BdkOboServiceConfig {
       final TemplateEngine templateEngine,
       final BdkConfig config
   ) {
-    return new MessageService(messagesApi, messageApi, messageSuppressionApi, streamsApi, podApi, attachmentsApi,
+    return new MessageServiceImpl(messagesApi, messageApi, messageSuppressionApi, streamsApi, podApi, attachmentsApi,
         defaultApi, templateEngine, new RetryWithRecoveryBuilder<>().retryConfig(config.getRetry()));
   }
 }

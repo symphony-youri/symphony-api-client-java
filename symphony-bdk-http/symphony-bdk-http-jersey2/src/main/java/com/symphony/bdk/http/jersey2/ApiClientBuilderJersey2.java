@@ -48,6 +48,7 @@ public class ApiClientBuilderJersey2 implements ApiClientBuilder {
   protected String proxyUrl;
   protected String proxyUser;
   protected String proxyPassword;
+  private Object writerInterceptor;
 
   public ApiClientBuilderJersey2() {
     this.basePath = "https://acme.symphony.com";
@@ -82,7 +83,17 @@ public class ApiClientBuilderJersey2 implements ApiClientBuilder {
     httpClient.property(ClientProperties.CONNECT_TIMEOUT, this.connectionTimeout);
     httpClient.property(ClientProperties.READ_TIMEOUT, this.readTimeout);
 
+    if (writerInterceptor != null) {
+      httpClient.register(writerInterceptor);
+    }
+
     return new ApiClientJersey2(httpClient, this.basePath, this.defaultHeaders, this.temporaryFolderPath);
+  }
+
+  @Override
+  public ApiClientBuilder withWriterInterceptor(Object writerInterceptor) {
+    this.writerInterceptor = writerInterceptor;
+    return this;
   }
 
   /**

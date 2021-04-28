@@ -17,6 +17,8 @@ public interface ApiClientBuilder {
    */
   ApiClient build();
 
+  ApiClientBuilder withWriterInterceptor(Object writerInterceptor);
+
   /**
    * @param basePath base URL to be used for HTTP calls
    * @return the updated instance of {@link ApiClientBuilder}

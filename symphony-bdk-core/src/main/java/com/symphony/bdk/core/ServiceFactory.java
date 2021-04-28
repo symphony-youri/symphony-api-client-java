@@ -12,8 +12,8 @@ import com.symphony.bdk.core.service.datafeed.impl.DatafeedLoopV1;
 import com.symphony.bdk.core.service.datafeed.impl.DatafeedLoopV2;
 import com.symphony.bdk.core.service.disclaimer.DisclaimerService;
 import com.symphony.bdk.core.service.health.HealthService;
-import com.symphony.bdk.core.service.message.AgentlessMessageService;
 import com.symphony.bdk.core.service.message.MessageService;
+import com.symphony.bdk.core.service.message.MessageServiceImpl;
 import com.symphony.bdk.core.service.presence.PresenceService;
 import com.symphony.bdk.core.service.session.SessionService;
 import com.symphony.bdk.core.service.signal.SignalService;
@@ -51,7 +51,7 @@ import org.apiguardian.api.API;
  * <ul>
  *   <li>{@link UserService}</li>
  *   <li>{@link StreamService}</li>
- *   <li>{@link MessageService}</li>
+ *   <li>{@link MessageServiceImpl}</li>
  *   <li>{@link DatafeedLoop}</li>
  *   <li>{@link SessionService}</li>
  * </ul>
@@ -67,6 +67,7 @@ class ServiceFactory {
   private final TemplateEngine templateEngine;
   private final BdkConfig config;
   private final RetryWithRecoveryBuilder<?> retryBuilder;
+  private final ApiClientFactory apiClientFactory;
 
   public ServiceFactory(ApiClientFactory apiClientFactory, AuthSession authSession, BdkConfig config) {
     this.podClient = apiClientFactory.getPodClient();
@@ -78,6 +79,7 @@ class ServiceFactory {
     this.templateEngine = TemplateEngine.getDefaultImplementation();
     this.config = config;
     this.retryBuilder = new RetryWithRecoveryBuilder<>().retryConfig(config.getRetry());
+    this.apiClientFactory = apiClientFactory;
   }
 
   /**
@@ -126,13 +128,21 @@ class ServiceFactory {
   }
 
   /**
-   * Returns a fully initialized {@link MessageService}.
+   * Returns a fully initialized {@link MessageServiceImpl}.
    *
-   * @return a new {@link MessageService} instance.
+   * @return a new {@link MessageServiceImpl} instance.
    */
   public MessageService getMessageService() {
-    return new AgentlessMessageService(
-        new MessagesApi(this.podRootClient),
+    if (this.config.getModule() != null) {
+      MessageService service = this.config.getModule().getService(authSession, apiClientFactory, retryBuilder,
+          MessageService.class
+      );
+      if (service != null) {
+        return service;
+      }
+    }
+    return new MessageServiceImpl(
+        new MessagesApi(this.agentClient),
         new MessageApi(this.podClient),
         new MessageSuppressionApi(this.podClient),
         new StreamsApi(this.podClient),

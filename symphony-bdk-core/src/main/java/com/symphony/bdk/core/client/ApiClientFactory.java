@@ -191,6 +191,7 @@ public class ApiClientFactory {
     ApiClientBuilder apiClientBuilder = this.apiClientBuilderProvider
         .newInstance()
         .withBasePath(basePath)
+        .withWriterInterceptor(clientConfig.getParentConfig().getModule().getWriterInterceptor())
         .withReadTimeout(clientConfig.getReadTimeout())
         .withConnectionTimeout(clientConfig.getConnectionTimeout())
         .withConnectionPoolMax(clientConfig.getConnectionPoolMax())
@@ -220,6 +221,14 @@ public class ApiClientFactory {
           .withProxy(proxyConfig.getHost(), proxyConfig.getPort())
           .withProxyCredentials(proxyConfig.getUsername(), proxyConfig.getPassword());
     }
+  }
+
+  public ApiClient getAgentBaseClient(String path) {
+    return buildClient(path, config.getAgent());
+  }
+
+  public ApiClient getKeyManagerClient() {
+    return buildClient("", config.getKeyManager());
   }
 
   @API(status = API.Status.INTERNAL)

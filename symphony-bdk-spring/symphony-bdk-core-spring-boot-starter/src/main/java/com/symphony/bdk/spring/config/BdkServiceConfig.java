@@ -8,6 +8,7 @@ import com.symphony.bdk.core.service.connection.ConnectionService;
 import com.symphony.bdk.core.service.disclaimer.DisclaimerService;
 import com.symphony.bdk.core.service.health.HealthService;
 import com.symphony.bdk.core.service.message.MessageService;
+import com.symphony.bdk.core.service.message.MessageServiceImpl;
 import com.symphony.bdk.core.service.presence.PresenceService;
 import com.symphony.bdk.core.service.session.SessionService;
 import com.symphony.bdk.core.service.signal.SignalService;
@@ -120,7 +121,7 @@ public class BdkServiceConfig {
       final TemplateEngine templateEngine,
       final BdkConfig config
   ) {
-    return new MessageService(messagesApi, messageApi, messageSuppressionApi, streamsApi, podApi, attachmentsApi,
+    return new MessageServiceImpl(messagesApi, messageApi, messageSuppressionApi, streamsApi, podApi, attachmentsApi,
         defaultApi, botSession, templateEngine, new RetryWithRecoveryBuilder<>().retryConfig(config.getRetry()));
   }
 }

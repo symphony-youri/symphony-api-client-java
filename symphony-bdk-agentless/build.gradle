@@ -1,0 +1,28 @@
+plugins {
+    id 'bdk.java-library-conventions'
+    id 'bdk.java-publish-conventions'
+}
+
+dependencies {
+    implementation 'com.symphony:scrypto-lib'
+    implementation 'org.symphonyoss.symphony:messageml:0.9.68'
+
+    api project(':symphony-bdk-core')
+    api project(':symphony-bdk-http:symphony-bdk-http-api')
+    // TODO should be removed and choice left to the implementer
+    implementation project(':symphony-bdk-http:symphony-bdk-http-jersey2')
+
+    implementation 'org.glassfish.jersey.core:jersey-client'
+    implementation 'org.glassfish.jersey.media:jersey-media-multipart'
+
+    runtimeOnly project(':symphony-bdk-template:symphony-bdk-template-freemarker')
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    implementation 'org.apiguardian:apiguardian-api'
+
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+}
+

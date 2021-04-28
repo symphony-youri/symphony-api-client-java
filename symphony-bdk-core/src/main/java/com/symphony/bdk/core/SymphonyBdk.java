@@ -16,6 +16,7 @@ import com.symphony.bdk.core.service.datafeed.DatafeedLoop;
 import com.symphony.bdk.core.service.disclaimer.DisclaimerService;
 import com.symphony.bdk.core.service.health.HealthService;
 import com.symphony.bdk.core.service.message.MessageService;
+import com.symphony.bdk.core.service.message.MessageServiceImpl;
 import com.symphony.bdk.core.service.presence.PresenceService;
 import com.symphony.bdk.core.service.session.SessionService;
 import com.symphony.bdk.core.service.signal.SignalService;
@@ -145,10 +146,10 @@ public class SymphonyBdk {
   }
 
   /**
-   * Get the {@link MessageService} from a Bdk entry point.
+   * Get the {@link MessageServiceImpl} from a Bdk entry point.
    * The returned message service instance.
    *
-   * @return {@link MessageService} message service instance.
+   * @return {@link MessageServiceImpl} message service instance.
    */
   public MessageService messages() {
     return getOrThrowNoBotConfig(this.messageService);
