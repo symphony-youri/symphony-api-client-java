@@ -80,6 +80,11 @@ public class ApiClientBuilderWebClient implements ApiClientBuilder {
     return new ApiClientWebClient(webClient, this.basePath, this.defaultHeaders);
   }
 
+  @Override
+  public ApiClientBuilder withWriterInterceptor(Object writerInterceptor) {
+    throw new UnsupportedOperationException("Not implemented");
+  }
+
   /**
    * {@inheritDoc}
    */

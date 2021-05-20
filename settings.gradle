@@ -1,8 +1,5 @@
 rootProject.name = 'symphony-bdk-java'
 
-includeBuild '../scrypto'
-
-
 include(':symphony-bdk-bom')
 
 include(':symphony-bdk-core')
@@ -16,8 +13,6 @@ include(':symphony-bdk-template:symphony-bdk-template-handlebars')
 
 include(':symphony-bdk-spring:symphony-bdk-core-spring-boot-starter')
 include(':symphony-bdk-spring:symphony-bdk-app-spring-boot-starter')
-
-include(':symphony-bdk-agentless')
 
 include(':symphony-bdk-examples:bdk-core-examples')
 include(':symphony-bdk-examples:bdk-spring-boot-example')

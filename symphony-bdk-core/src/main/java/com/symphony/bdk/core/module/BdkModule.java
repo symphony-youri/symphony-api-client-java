@@ -8,8 +8,11 @@ public interface BdkModule {
 
   // TODO how do we make it extendable without breaking compat, i.e introduce parameter objects or an init method
   // to access config and factories or interact with the builder
-  <T> T getService(AuthSession authSession, ApiClientFactory apiClientFactory, RetryWithRecoveryBuilder<?> retryBuilder,
-      Class<T> messageServiceClass);
+  default <T> T getService(AuthSession authSession, ApiClientFactory apiClientFactory,
+      RetryWithRecoveryBuilder<?> retryBuilder,
+      Class<T> messageServiceClass) {
+    return null;
+  }
 
-    Object getWriterInterceptor();
+  Object getWriterInterceptor();
 }
