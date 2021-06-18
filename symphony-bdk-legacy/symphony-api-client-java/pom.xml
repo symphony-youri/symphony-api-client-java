@@ -19,7 +19,7 @@
         <commons-codec.version>1.14</commons-codec.version>
         <commons-io.version>2.6</commons-io.version>
         <jackson.version>2.11.0</jackson.version>
-        <jersey.version>2.30</jersey.version>
+        <jersey.version>2.33</jersey.version>
         <jjwt.version>0.9.1</jjwt.version>
         <lombok.version>1.18.10</lombok.version>
         <messageml.version>0.9.51</messageml.version>
